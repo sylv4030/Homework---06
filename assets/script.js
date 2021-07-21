@@ -22,8 +22,18 @@ var nameEl = document.getElementById("city-name");
 var today = new Date ();
 var tomorrow = new Date(today);
 var dayAfter= new Date(today);
+var fDayThree = new Date(today);
+var fDayFour= new Date(today);
+var fDayFive= new Date(today);
 tomorrow.setDate(tomorrow.getDate() + 1);
-dayAfter = new Date(dayAfter.getDate() + 2);
+dayAfter.setDate(dayAfter.getDate() + 2);
+fDayThree.setDate(fDayThree.getDate() + 3);
+fDayFour.setDate(fDayFour.getDate() + 4);
+fDayFive.setDate(fDayFive.getDate() + 5);
+console.log(dayAfter);
+// var fDayThree = new Date(fDayThree.getDate() + 3);
+// console.log(dayAfter);
+// console.log(fDayThree);
 
 // API key variable
 var APIKey = "e49bce451103e9e46812578c0f85025c";
@@ -47,11 +57,21 @@ function showWeather(response) {
         let degrees = response.data.main.temp;
         let icon = `https://openweathermap.org/img/w/${response.data.weather[0].icon}.png`;
         let windSpeed = response.data.wind.speed;
+        const weatherData = response;
+        const lat = weatherData.data.coord.lat;
+        const lon = weatherData.data.coord.lon;
+        console.log(lat);
+        console.log(lon);
+        
+        
+       
+
         day.innerHTML = today;
         temp.innerHTML = "Temp " + degrees;
         windMPH.innerHTML = "Wind: " + windSpeed + " mph";
         humidityLevel.innerHTML = "Humidty: " + response.data.main.humidity + " %";
         picture.setAttribute('src', icon);
+        // console.log(response);
         
     })
     nameEl.innerHTML = inputEl.value;   
@@ -68,12 +88,23 @@ function showFiveday (fresponse) {
 
         firstDay.innerHTML = "Date: " + tomorrow + "<br /> Temp: " + fTemp;
         secondDay.innerHTML = "Date: " + dayAfter + "<br /> Temp: " + fresponse.data.list[1].main.temp;
-        thirdDay.innerHTML = "Temp: " + fresponse.data.list[2].main.temp;
-        fourthDay.innerHTML = "Temp: " + fresponse.data.list[3].main.temp;
-        fifthDay.innerHTML = "Temp: " + fresponse.data.list[4].main.temp;
+        thirdDay.innerHTML = "Date: " + fDayThree + "<br /> Temp: " + fresponse.data.list[2].main.temp;
+        fourthDay.innerHTML = "Date: " + fDayFour + "<br /> Temp: " + fresponse.data.list[3].main.temp;
+        fifthDay.innerHTML =  "Date: " + fDayFive + "<br /> Temp: " + fresponse.data.list[4].main.temp;
       
     })
 }
+
+// function showUVI(uviresponse){
+   
+    
+//     let uviAPI = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat.value + "&lon=" + lon.value + "&units=imperial&appid=" + APIKey;
+//     axios.get(uviAPI)
+//     .then(function(uviresponse){
+//         console.log(uviresponse);
+//         console.log(weatherData);
+// })
+// }
 
 // Event listener for submit button and starting history, weather, and forecast functions
  searchEl.addEventListener("click",function() { 
@@ -81,6 +112,7 @@ function showFiveday (fresponse) {
     showHistory();
     showWeather();
     showFiveday();
+    // showUVI();
     console.log(inputEl.value);
     searchHistory.push(inputEl.value);
     localStorage.searchHistory=JSON.stringify(searchHistory)
